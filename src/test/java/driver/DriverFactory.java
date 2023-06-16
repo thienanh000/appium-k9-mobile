@@ -2,7 +2,6 @@ package driver;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -11,7 +10,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.remote.MobileCapabilityType;
 import platform.Platform;
 
 public class DriverFactory implements MobileCapabilityTypeEx {
@@ -48,4 +46,11 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 
 		return appiumDriver;
 	}
+	
+	//NOTE: 
+	/*
+	 * Use the bellow cmd to run again when meeting error of "No Chromedriver found that can automate Chrome" 
+	 * appium --allow-insecure chromedriver_autodownload
+	 */
+
 }
