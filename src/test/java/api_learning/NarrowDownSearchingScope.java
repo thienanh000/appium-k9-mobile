@@ -59,11 +59,11 @@ public class NarrowDownSearchingScope {
 					.release()
 					.perform();
 			
-			List<MobileElement> notificationElems = appiumDriver.findElements(MobileBy.id("android:id/expand_button_icon"));
+			List<MobileElement> notificationElems = appiumDriver.findElements(MobileBy.id("android:id/notification_header"));
 			Map<String, String> notificationContents = new HashedMap();
 			for (MobileElement notificationElem : notificationElems) {
-				MobileElement titleElem = notificationElem.findElement(MobileBy.id("android:id/title"));
-				MobileElement contentElem = notificationElem.findElement(MobileBy.id("android:id/text"));
+				MobileElement titleElem = notificationElem.findElement(MobileBy.id("android:id/header_text"));
+				MobileElement contentElem = notificationElem.findElement(MobileBy.id("android:id/header_text"));
 				notificationContents.put(titleElem.getText().trim(), contentElem.getText().trim());
 			}
 			

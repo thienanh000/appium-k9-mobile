@@ -3,6 +3,7 @@ package api_learning;
 import java.time.Duration;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -51,12 +52,11 @@ public class SwipeHorizontally {
 
 			// Using TouchAction to swipe
 			TouchAction touchAction = new TouchAction(appiumDriver);
-					
-			//TODO: Verify Swipe to see specific String
-//			List<MobileElement> targetElems = appiumDriver.findElements(MobileBy.AccessibilityId("slideTextContainer"));
-//			String targetStr = targetElems.get(0).getText().trim();
-//			Swipe.swipeHorizontally(appiumDriver, targetElems.get(0), "SUPPORT VIDEOS");	
-			
+
+			// Verify Swipe to see specific String
+//			By titleSel = MobileBy.className("android.widget.TextView");
+//			Swipe.swipeHorizontally(appiumDriver, titleSel, "SUPPORT VIDEOS");
+
 			// Swipe from right to left
 			for (int time = 0; time < 5; time++) {
 				touchAction
