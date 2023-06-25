@@ -3,6 +3,7 @@ package test_flows.authentication;
 import org.apache.commons.validator.EmailValidator;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -52,31 +53,26 @@ public class LoginFlow extends BaseFlow {
 		}
 	}
 
-	// TODO: Homework
 	private void verifyCorrectLoginCreds(LoginFormComponent loginFormComp) {
 		String actualSucessInfo = loginFormComp.getSuccessInfoStr();
 		String expectedSucessInfo = "Success";
-
-		System.out.println("actualSucessInfo: " + actualSucessInfo);
-		System.out.println("expectedSucessInfo: " + expectedSucessInfo);
+		Assert.assertEquals(actualSucessInfo, expectedSucessInfo, "[ERR] Correct login message is correct!");
 
 	}
 
 	private void verifyIncorrectEmail(LoginFormComponent loginFormComp) {
 		String actualInvalidEmailStr = loginFormComp.getInvalidEmailStr();
 		String expectedInvalidEmailStr = "Please enter a valid email address";
-
-		System.out.println("actualInvalidEmailStr: " + actualInvalidEmailStr);
-		System.out.println("expectedInvalidEmailStr: " + expectedInvalidEmailStr);
+		Assert.assertEquals(actualInvalidEmailStr, expectedInvalidEmailStr,
+				"[ERR] Invalid email message is not correct!");
 
 	}
 
 	private void verifyIncorrectPassword(LoginFormComponent loginFormComp) {
 		String actualInvalidPasswordStr = loginFormComp.getInvalidPasswordStr();
 		String expectedInvalidPasswordStr = "Please enter at least 8 characters";
-
-		System.out.println("actualInvalidPasswordStr: " + actualInvalidPasswordStr);
-		System.out.println("expectedInvalidPasswordStr: " + expectedInvalidPasswordStr);
+		Assert.assertEquals(actualInvalidPasswordStr, expectedInvalidPasswordStr,
+				"[ERR] Invalid password message is not correct!");
 
 	}
 

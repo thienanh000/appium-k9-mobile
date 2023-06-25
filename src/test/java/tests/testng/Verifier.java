@@ -1,0 +1,10 @@
+package tests.testng;
+
+public class Verifier {
+
+	public static void verifyEquals(String actualResult, String expectedResult) {
+		if (!actualResult.equals(expectedResult)) {
+			throw new AssertionError("Expected value and Actual value is different!");
+		}
+	}
+}
