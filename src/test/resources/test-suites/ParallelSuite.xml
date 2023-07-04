@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Regression" parallel="tests" thread-count="10">
+	<test name="Authentication 01">
+	<parameter name="udid" value="RF8RC1VR7EA"/>
+	<parameter name="systemPort" value="8300"/>
+		<classes>
+			<class name="tests.parallel.Login" />
+			<class name="tests.form.FormTest" />
+		</classes>
+	</test>
+	<test name="Authentication 02">
+	<parameter name="udid" value="RF8RC1VR7EA"/>
+	<parameter name="systemPort" value="8400"/>
+		<classes>
+			<class name="tests.form.FormTest" />
+		</classes>
+	</test>
+</suite>

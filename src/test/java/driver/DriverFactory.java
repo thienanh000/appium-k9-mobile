@@ -14,8 +14,18 @@ import platform.Platform;
 
 public class DriverFactory implements MobileCapabilityTypeEx {
 
+	// NOTE:
+	/*
+	 * Use the bellow cmd to run again when meeting error of
+	 * "No Chromedriver found that can automate Chrome" appium --allow-insecure
+	 * chromedriver_autodownload
+	 */
+
+	private AppiumDriver<MobileElement> appiumDriver;
+
 	public static AppiumDriver<MobileElement> getDriver(Platform platform) {
 		AppiumDriver<MobileElement> appiumDriver = null;
+
 		DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 		desiredCapabilities.setCapability(PLATFORM_NAME, "Android");
 		desiredCapabilities.setCapability(AUTOMATION_NAME, "uiautomator2");
@@ -46,11 +56,48 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 
 		return appiumDriver;
 	}
-	
-	//NOTE: 
-	/*
-	 * Use the bellow cmd to run again when meeting error of "No Chromedriver found that can automate Chrome" 
-	 * appium --allow-insecure chromedriver_autodownload
-	 */
+
+	public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort) {
+		if (appiumDriver == null) {
+			DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+			desiredCapabilities.setCapability(PLATFORM_NAME, "Android");
+			desiredCapabilities.setCapability(AUTOMATION_NAME, "uiautomator2");
+			desiredCapabilities.setCapability(UDID, udid);
+			desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
+			desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
+			desiredCapabilities.setCapability(SYSTEM_PORT, systemPort);
+			URL appiumServer = null;
+			try {
+				appiumServer = new URL("http://localhost:4723/wd/hub");
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+
+			if (appiumServer == null) {
+				throw new RuntimeException(
+						"[ERR] Can not construct the appium server url @http://localhost:4723/wd/hub");
+			}
+
+			switch (platform) {
+			case ANDROID:
+				appiumDriver = new AndroidDriver<MobileElement>(appiumServer, desiredCapabilities);
+				break;
+			case IOS:
+				appiumDriver = new IOSDriver<MobileElement>(appiumServer, desiredCapabilities);
+				break;
+			}
+
+			appiumDriver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+
+		}
+		return appiumDriver;
+	}
+
+	public void quitAppiumSession() {
+		if (appiumDriver != null) {
+			appiumDriver.quit();
+			appiumDriver = null;
+		}
+	}
 
 }
