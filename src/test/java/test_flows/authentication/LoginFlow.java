@@ -7,6 +7,7 @@ import org.testng.Assert;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.Step;
 import models.components.login.LoginFormComponent;
 import models.pages.LoginScreen;
 import test_flows.BaseFlow;
@@ -44,6 +45,7 @@ public class LoginFlow extends BaseFlow {
 			WebDriverWait wait = new WebDriverWait(appiumDriver, 10);
 			wait.until(ExpectedConditions.alertIsPresent());
 			verifyCorrectLoginCreds(loginFormComp);
+			loginFormComp.clickOnOkBtn();
 		}
 		if (!isEmailValid) {
 			verifyIncorrectEmail(loginFormComp);
@@ -51,8 +53,10 @@ public class LoginFlow extends BaseFlow {
 		if (!isPasswordValid) {
 			verifyIncorrectPassword(loginFormComp);
 		}
+
 	}
 
+	@Step("Verify login with correct creds")
 	private void verifyCorrectLoginCreds(LoginFormComponent loginFormComp) {
 		String actualSucessInfo = loginFormComp.getSuccessInfoStr();
 		String expectedSucessInfo = "Success";
@@ -60,6 +64,7 @@ public class LoginFlow extends BaseFlow {
 
 	}
 
+	@Step("Verify login with incorrect email")
 	private void verifyIncorrectEmail(LoginFormComponent loginFormComp) {
 		String actualInvalidEmailStr = loginFormComp.getInvalidEmailStr();
 		String expectedInvalidEmailStr = "Please enter a valid email address";
@@ -68,6 +73,7 @@ public class LoginFlow extends BaseFlow {
 
 	}
 
+	@Step("Verify login with incorrect password")
 	private void verifyIncorrectPassword(LoginFormComponent loginFormComp) {
 		String actualInvalidPasswordStr = loginFormComp.getInvalidPasswordStr();
 		String expectedInvalidPasswordStr = "Please enter at least 8 characters";

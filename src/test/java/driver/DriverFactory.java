@@ -33,14 +33,17 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 		desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
 		desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
 		URL appiumServer = null;
+		
+//		String targetServer = "http://localhost:4723/wd/hub";
+		String targetServer = "http://10.10.62.130:4444/wd/hub";
 		try {
-			appiumServer = new URL("http://localhost:4723/wd/hub");
+			appiumServer = new URL(targetServer);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
 
 		if (appiumServer == null) {
-			throw new RuntimeException("[ERR] Can not construct the appium server url @http://localhost:4723/wd/hub");
+			throw new RuntimeException("[ERR] Can not construct the appium server url " + targetServer);
 		}
 
 		switch (platform) {

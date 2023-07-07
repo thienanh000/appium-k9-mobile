@@ -1,11 +1,8 @@
 {
   "capabilities": [
     {
-      "version": "9",
       "maxInstances": 1,
-      "platform": "ANDROID",
-      "deviceName": "Samsung J7",
-      "udid": "RF8RC1VR7EA"
+      "platform": "ANDROID"
     }
   ],
   "configuration": {

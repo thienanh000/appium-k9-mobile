@@ -1,11 +1,8 @@
 {
   "capabilities": [
     {
-      "version": "9",
       "maxInstances": 1,
-      "platform": "ANDROID",
-      "deviceName": "Amazon FireHD 10",
-      "udid": "G8S1LV05133401MM"
+      "platform": "ANDROID"
     }
   ],
   "configuration": {

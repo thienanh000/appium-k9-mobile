@@ -1,9 +1,20 @@
 package tests;
 
+import java.io.File;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
@@ -11,6 +22,7 @@ import org.testng.annotations.Parameters;
 import driver.DriverFactory;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.qameta.allure.Allure;
 import platform.Platform;
 
 public class BaseTest {
@@ -42,5 +54,42 @@ public class BaseTest {
 	@AfterTest(alwaysRun = true)
 	public void quitAppiumSession() {
 		driverThread.get().quitAppiumSession();
+	}
+	
+	@AfterMethod(description = "Capture screenshot if test is failed")
+	public void captureScreenshot(ITestResult result) {
+		if (result.getStatus() == ITestResult.FAILURE) {
+			//1. Get the test method name
+			String testMethodName = result.getName();
+			
+			//2. Get taken time
+			Calendar calendar = new GregorianCalendar();
+			int y = calendar.get(Calendar.YEAR);
+			int m = calendar.get(Calendar.MONTH) + 1;
+			int d = calendar.get(Calendar.DATE);
+			int hr = calendar.get(Calendar.HOUR_OF_DAY);
+			int min = calendar.get(Calendar.MINUTE);
+			int s = calendar.get(Calendar.SECOND);
+			
+			String takenTime = y + "-" + m + "-" + d + "-" + hr + "-" + min + "-" + s;
+			
+			//3. File location to save
+			String fileName = testMethodName + "-" + takenTime + ".png";
+			String fileLocation = System.getProperty("user.dir") + "/screenshots/" + fileName;
+			
+			//4. Save then attach to Allure report
+			File screenshotBase64Data = getDriver().getScreenshotAs(OutputType.FILE);
+			
+			try {
+				FileUtils.copyFile(screenshotBase64Data, new File(fileLocation));
+				Path screenshotContentPath = Paths.get(fileLocation);
+				InputStream inputStream = Files.newInputStream(screenshotContentPath);
+				Allure.addAttachment(testMethodName, inputStream);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 	}
 }
