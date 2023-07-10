@@ -22,7 +22,7 @@ import utilities.Swipe;
 public class SwipeHorizontally {
 
 	public static void main(String[] args) {
-		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 
 		try {
 			MobileElement navSwipeScreenBtnElem = appiumDriver.findElement(MobileBy.AccessibilityId("Swipe"));

@@ -12,7 +12,7 @@ import platform.Platform;
 public class HandleVariantBehaviour implements MobileCapabilityTypeEx{
 
 	public static void main(String[] args) {
-		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 
 		try {
 			// Get platformName

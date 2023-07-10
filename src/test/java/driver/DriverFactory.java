@@ -34,8 +34,8 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 		desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
 		URL appiumServer = null;
 		
-//		String targetServer = "http://localhost:4723/wd/hub";
-		String targetServer = "http://10.10.62.130:4444/wd/hub";
+		String targetServer = "http://localhost:4723/wd/hub";
+//		String targetServer = "http://10.10.62.130:4444/wd/hub";
 		try {
 			appiumServer = new URL(targetServer);
 		} catch (MalformedURLException e) {
@@ -47,10 +47,10 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 		}
 
 		switch (platform) {
-		case ANDROID:
+		case android:
 			appiumDriver = new AndroidDriver<MobileElement>(appiumServer, desiredCapabilities);
 			break;
-		case IOS:
+		case ios:
 			appiumDriver = new IOSDriver<MobileElement>(appiumServer, desiredCapabilities);
 			break;
 		}
@@ -60,18 +60,13 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 		return appiumDriver;
 	}
 
-	public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort) {
+	public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort, String platformVersion) {
 		if (appiumDriver == null) {
-			DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
-			desiredCapabilities.setCapability(PLATFORM_NAME, "Android");
-			desiredCapabilities.setCapability(AUTOMATION_NAME, "uiautomator2");
-			desiredCapabilities.setCapability(UDID, udid);
-			desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
-			desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
-			desiredCapabilities.setCapability(SYSTEM_PORT, systemPort);
 			URL appiumServer = null;
+//			String targetServer = "http://localhost:4723/wd/hub";
+			String targetServer = "http://10.10.62.130:4444/wd/hub";
 			try {
-				appiumServer = new URL("http://localhost:4723/wd/hub");
+				appiumServer = new URL(targetServer);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}
@@ -81,11 +76,23 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 						"[ERR] Can not construct the appium server url @http://localhost:4723/wd/hub");
 			}
 
+			DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
+			desiredCapabilities.setCapability(PLATFORM_NAME, platform);
 			switch (platform) {
-			case ANDROID:
+			case android:
+				desiredCapabilities.setCapability(AUTOMATION_NAME, "uiautomator2");
+				desiredCapabilities.setCapability(UDID, udid);
+				desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
+				desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
+				desiredCapabilities.setCapability(SYSTEM_PORT, systemPort);
 				appiumDriver = new AndroidDriver<MobileElement>(appiumServer, desiredCapabilities);
 				break;
-			case IOS:
+			case ios:
+				desiredCapabilities.setCapability(AUTOMATION_NAME, "XCUITest");
+				desiredCapabilities.setCapability(DEVICE_NAME, udid);
+				desiredCapabilities.setCapability(PLATFORM_VERSION, platformVersion);
+				desiredCapabilities.setCapability(BUNDLE_ID, "org.wdioNativeDemoApp");
+				desiredCapabilities.setCapability(WDA_LOCAL_PORT, systemPort);
 				appiumDriver = new IOSDriver<MobileElement>(appiumServer, desiredCapabilities);
 				break;
 			}

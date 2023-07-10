@@ -3,10 +3,6 @@ package tests.authen;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import driver.DriverFactory;
-import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
-import platform.Platform;
 import test_data.DataObjectBuilder;
 import test_flows.authentication.LoginFlow;
 import tests.BaseTest;

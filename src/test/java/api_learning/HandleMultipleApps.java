@@ -15,7 +15,7 @@ public class HandleMultipleApps {
 
 	public static void main(String[] args) {
 
-		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 
 		try {
 			// Navigate to Login form and fill out all fields

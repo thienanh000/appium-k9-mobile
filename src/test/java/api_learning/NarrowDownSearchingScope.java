@@ -22,7 +22,7 @@ import platform.Platform;
 public class NarrowDownSearchingScope {
 
 	public static void main(String[] args) {
-		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 
 		try {
 			MobileElement navFormScreenBtnElem = appiumDriver.findElement(MobileBy.AccessibilityId("Forms"));

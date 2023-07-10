@@ -1,25 +1,30 @@
 package models.components.login;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.PageFactory;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.pagefactory.AndroidFindBy;
+import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import io.appium.java_client.pagefactory.iOSXCUITFindBy;
 import io.qameta.allure.Step;
 
 public class LoginFormComponent {
 
 	private final AppiumDriver<MobileElement> appiumDriver;
 	private final static By usernameSel = MobileBy.AccessibilityId("input-email");
-	private final static By incorrectEmailTxtSel = MobileBy.xpath("//*[contains(@text, 'Please enter a valid email address')]");
 	private final static By passwordSel = MobileBy.AccessibilityId("input-password");
-	private final static By incorrectPasswordTxtSel = MobileBy.xpath("//*[contains(@text, 'Please enter at least 8 characters')]");
 	private final static By loginBtnSel = MobileBy.AccessibilityId("button-LOGIN");
 	private final static By successInfoSel = MobileBy.id("android:id/alertTitle");
 	private final static By okBtnSel = MobileBy.id("android:id/button1");
 
 	public LoginFormComponent(AppiumDriver<MobileElement> appiumDriver) {
 		this.appiumDriver = appiumDriver;
+		PageFactory.initElements(new AppiumFieldDecorator(appiumDriver, Duration.ofSeconds(10)), this);
 	}
 
 	@Step("Input username as {usernameTxt}")
@@ -27,11 +32,16 @@ public class LoginFormComponent {
 		if (!usernameTxt.isEmpty()) {
 			MobileElement usernameElem = appiumDriver.findElement(usernameSel);
 			usernameElem.clear();
-			usernameElem.sendKeys(usernameTxt);}
+			usernameElem.sendKeys(usernameTxt);
+		}
 	}
-	
+
+	@AndroidFindBy(xpath = "//*[contains(@text, 'Please enter a valid email address')]")
+	@iOSXCUITFindBy(iOSNsPredicate = "label == \"Please enter a valid email address\"")
+	private MobileElement incorrectEmailTxtElem;
+
 	public String getInvalidEmailStr() {
-		return appiumDriver.findElement(incorrectEmailTxtSel).getText();
+		return incorrectEmailTxtElem.getText().trim();
 	}
 
 	@Step("Input password as {passwordTxt}")
@@ -39,11 +49,16 @@ public class LoginFormComponent {
 		if (!passwordTxt.isEmpty()) {
 			MobileElement passwordElem = appiumDriver.findElement(passwordSel);
 			passwordElem.clear();
-			passwordElem.sendKeys(passwordTxt);}
+			passwordElem.sendKeys(passwordTxt);
+		}
 	}
 
+	@AndroidFindBy(xpath = "//*[contains(@text, 'Please enter at least 8 characters')]")
+	@iOSXCUITFindBy(iOSNsPredicate = "label == \"Please enter at least 8 characters\"")
+	private MobileElement incorrectPasswordTxtElem;
+
 	public String getInvalidPasswordStr() {
-		return appiumDriver.findElement(incorrectPasswordTxtSel).getText();
+		return incorrectPasswordTxtElem.getText().trim();
 	}
 
 	@Step("Click on login button")

@@ -16,7 +16,7 @@ public class LoginTestWithDataProvider {
 
 	@Test(dataProvider = "loginCredData")
 	public void testLogin(LoginCred loginCred) {
-		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.ANDROID);
+		AppiumDriver<MobileElement> appiumDriver = DriverFactory.getDriver(Platform.android);
 		List<LoginCred> loginCreds = new ArrayList<LoginTestWithDataProvider.LoginCred>();
 
 		try {

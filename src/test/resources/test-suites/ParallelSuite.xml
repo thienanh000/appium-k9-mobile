@@ -2,18 +2,37 @@
 
 <suite name="Regression" parallel="tests" thread-count="10">
 	<test name="Authentication 01">
+		<parameter name="platformName" value="android" />
 		<parameter name="udid" value="RF8RC1VR7EA" />
 		<parameter name="systemPort" value="8300" />
 		<classes>
 			<class name="tests.parallel.Login" />
-			<class name="tests.form.FormTest" />
 		</classes>
 	</test>
 	<test name="Authentication 02">
+		<parameter name="platformName" value="android" />
 		<parameter name="udid" value="emulator-6974" />
 		<parameter name="systemPort" value="8400" />
 		<classes>
-			<class name="tests.form.FormTest" />
+			<class name="tests.authen.LoginTestWithBaseTest" />
+		</classes>
+	</test>
+	<test name="Authentication 03">
+		<parameter name="platformName" value="ios" />
+		<parameter name="udid" value="iPhone 13" />
+		<parameter name="platformVersion" value="15.0" />
+		<parameter name="systemPort" value="8500" />
+		<classes>
+			<class name="tests.authen.LoginTestWithBaseTest" />
+		</classes>
+	</test>
+	<test name="Authentication 04">
+		<parameter name="platformName" value="ios" />
+		<parameter name="udid" value="iPhone 12" />
+		<parameter name="platformVersion" value="15.0" />
+		<parameter name="systemPort" value="8562" />
+		<classes>
+			<class name="tests.authen.LoginTestWithBaseTest" />
 		</classes>
 	</test>
 </suite>

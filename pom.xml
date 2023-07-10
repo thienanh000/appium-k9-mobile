@@ -14,7 +14,7 @@
                     -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.9.1/aspectjweaver-1.9.9.1.jar"
                 </argLine>
 					<systemPropertyVariables>
-						<allure.link.issue.pattern>https://example.org/issue/{}</allure.link.issue.pattern>
+						<allure.link.issue.pattern>https://example.org/bugs/{}</allure.link.issue.pattern>
 						<allure.link.tms.pattern>https://example.org/browse/{}</allure.link.tms.pattern>
 					</systemPropertyVariables>
 				</configuration>
