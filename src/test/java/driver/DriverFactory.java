@@ -33,7 +33,7 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 		desiredCapabilities.setCapability(APP_PACKAGE, "com.wdiodemoapp");
 		desiredCapabilities.setCapability(APP_ACTIVITY, "com.wdiodemoapp.MainActivity");
 		URL appiumServer = null;
-		
+
 		String targetServer = "http://localhost:4723/wd/hub";
 //		String targetServer = "http://10.10.62.130:4444/wd/hub";
 		try {
@@ -60,11 +60,32 @@ public class DriverFactory implements MobileCapabilityTypeEx {
 		return appiumDriver;
 	}
 
-	public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort, String platformVersion) {
+	public AppiumDriver<MobileElement> getDriver(Platform platform, String udid, String systemPort,
+			String platformVersion) {
+		String remoteInfoViaEnvVar = System.getenv("env");
+		String remoteInfoViaCommandVar = System.getProperty("env");
+		String isRemote = remoteInfoViaEnvVar == null ? remoteInfoViaCommandVar : remoteInfoViaEnvVar;
+
+		if (remoteInfoViaEnvVar == null) {
+			throw new IllegalArgumentException("Please provide env variable [env]!");
+		}
+		
+		String targetServer = "http://localhost:4723/wd/hub";
+		if (isRemote.equals("true")) {
+			String hubIpAddress = System.getenv("hub");
+			if (hubIpAddress == null) {
+				hubIpAddress = System.getProperty("hub");
+			}
+			if (hubIpAddress == null) {
+				throw new IllegalArgumentException("Please provide hub ip address via env variable [hub]!");
+			}
+			targetServer = "http://" + hubIpAddress + ":4444/wd/hub";
+
+		}
+
 		if (appiumDriver == null) {
 			URL appiumServer = null;
-//			String targetServer = "http://localhost:4723/wd/hub";
-			String targetServer = "http://10.10.62.130:4444/wd/hub";
+
 			try {
 				appiumServer = new URL(targetServer);
 			} catch (MalformedURLException e) {

@@ -40,6 +40,10 @@ public class LoginFormComponent {
 	@iOSXCUITFindBy(iOSNsPredicate = "label == \"Please enter a valid email address\"")
 	private MobileElement incorrectEmailTxtElem;
 
+	@AndroidFindBy(xpath = "//*[contains(@text, 'Please enter at least 8 characters')]")
+	@iOSXCUITFindBy(iOSNsPredicate = "label == \"Please enter at least 8 characters\"")
+	private MobileElement incorrectPasswordTxtElem;
+
 	public String getInvalidEmailStr() {
 		return incorrectEmailTxtElem.getText().trim();
 	}
@@ -52,10 +56,6 @@ public class LoginFormComponent {
 			passwordElem.sendKeys(passwordTxt);
 		}
 	}
-
-	@AndroidFindBy(xpath = "//*[contains(@text, 'Please enter at least 8 characters')]")
-	@iOSXCUITFindBy(iOSNsPredicate = "label == \"Please enter at least 8 characters\"")
-	private MobileElement incorrectPasswordTxtElem;
 
 	public String getInvalidPasswordStr() {
 		return incorrectPasswordTxtElem.getText().trim();

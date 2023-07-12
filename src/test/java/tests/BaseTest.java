@@ -28,25 +28,27 @@ import platform.Platform;
 
 public class BaseTest {
 
-	private static final List<DriverFactory> driverThreadPool = Collections.synchronizedList(new ArrayList<DriverFactory>());
+	private static final List<DriverFactory> driverThreadPool = Collections
+			.synchronizedList(new ArrayList<DriverFactory>());
 	private static ThreadLocal<DriverFactory> driverThread;
 	private String udid;
 	private String systemPort;
 	private String platformName;
 	private String platformVersion;
-	
-	protected AppiumDriver<MobileElement> getDriver(){
+
+	protected AppiumDriver<MobileElement> getDriver() {
 		return driverThread.get().getDriver(Platform.valueOf(platformName), udid, systemPort, platformVersion);
 	}
 
 	@BeforeTest
-	@Parameters({"udid", "systemPort", "platformName", "platformVersion"})
-	public void initAppiumSession(String udid, String systemPort, String platformName, @Optional("platformVersion") String platformVersion) {
+	@Parameters({ "udid", "systemPort", "platformName", "platformVersion" })
+	public void initAppiumSession(String udid, String systemPort, String platformName,
+			@Optional("platformVersion") String platformVersion) {
 		this.udid = udid;
 		this.systemPort = systemPort;
 		this.platformName = platformName;
 		this.platformVersion = platformVersion;
-		driverThread = new ThreadLocal<DriverFactory>(){
+		driverThread = new ThreadLocal<DriverFactory>() {
 			@Override
 			protected DriverFactory initialValue() {
 				DriverFactory driverThread = new DriverFactory();
@@ -60,14 +62,14 @@ public class BaseTest {
 	public void quitAppiumSession() {
 		driverThread.get().quitAppiumSession();
 	}
-	
+
 	@AfterMethod(description = "Capture screenshot if test is failed")
 	public void captureScreenshot(ITestResult result) {
 		if (result.getStatus() == ITestResult.FAILURE) {
-			//1. Get the test method name
+			// 1. Get the test method name
 			String testMethodName = result.getName();
-			
-			//2. Get taken time
+
+			// 2. Get taken time
 			Calendar calendar = new GregorianCalendar();
 			int y = calendar.get(Calendar.YEAR);
 			int m = calendar.get(Calendar.MONTH) + 1;
@@ -75,22 +77,22 @@ public class BaseTest {
 			int hr = calendar.get(Calendar.HOUR_OF_DAY);
 			int min = calendar.get(Calendar.MINUTE);
 			int s = calendar.get(Calendar.SECOND);
-			
+
 			String takenTime = y + "-" + m + "-" + d + "-" + hr + "-" + min + "-" + s;
-			
-			//3. File location to save
+
+			// 3. File location to save
 			String fileName = testMethodName + "-" + takenTime + ".png";
 			String fileLocation = System.getProperty("user.dir") + "/screenshots/" + fileName;
-			
-			//4. Save then attach to Allure report
+
+			// 4. Save then attach to Allure report
 			File screenshotBase64Data = getDriver().getScreenshotAs(OutputType.FILE);
-			
+
 			try {
 				FileUtils.copyFile(screenshotBase64Data, new File(fileLocation));
 				Path screenshotContentPath = Paths.get(fileLocation);
 				InputStream inputStream = Files.newInputStream(screenshotContentPath);
 				Allure.addAttachment(testMethodName, inputStream);
-				
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
